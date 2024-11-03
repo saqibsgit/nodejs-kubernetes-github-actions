@@ -20,6 +20,39 @@ jobs:
           run: npm install
         - name: Run tests
           run: npm test
-          
-          
+    build:
+        needs: [test]
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+        - name: Build Docker image
+          run: docker build -t saqibatdocker/my-node-app:${{ github.sha }} .
+        - name: Log in to Docker Hub
+          uses: docker/login-action@v3
+          with:
+            username: ${{ secrets.DOCKER_USERNAME }}
+            password: ${{ secrets.DOCKER_PASSWORD }}
+        - name: Push Docker image
+          run: docker push saqibatdocker/my-node-app:${{ github.sha }}
+    deploy:
+        needs: [build]
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+        - name: set up kubectl
+          uses: azure/setup-kubectl@v4
+        - name: Set up Kubeconfig
+          run: |
+            echo "${{ secrets.KUBECONFIG_JSON }}" > kubeconfig.json
+            export KUBECONFIG=kubeconfig.json
+        - name: Deploy to Kubernetes
+          run: |
+            kubectl apply -f K8s/deployment.yml
+            kubectl apply -f K8s/service.yml
+
+
+
+            
 
