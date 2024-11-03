@@ -8,7 +8,7 @@ on: [push]
 
 jobs:
     test:
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         steps:
         - name: Checkout code
           uses: actions/checkout@v4
@@ -22,7 +22,7 @@ jobs:
           run: cd app && npm test
     build:
         needs: [test]
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         steps:
         - name: Checkout code
           uses: actions/checkout@v4
@@ -37,7 +37,7 @@ jobs:
           run: docker push saqibatdocker/my-node-app:${{ github.sha }}
     deploy:
         needs: [build]
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         steps:
         - name: Checkout code
           uses: actions/checkout@v4
