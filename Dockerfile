@@ -7,7 +7,7 @@ FROM node:18
 WORKDIR /usr/scr/app
 
 # copy package.json and install dependencies
-COPY package.json ./app
+COPY app/package.json ./
 RUN npm install
 
 # copy the rest of application code
