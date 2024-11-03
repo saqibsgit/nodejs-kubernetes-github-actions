@@ -1,14 +1,14 @@
 # A CI/CD pipeline that automates the deployment of docker image of node.js file to kubernetes cluster
 name: node.js CI/CD Pipeline
 
-on:
-    push:
-        branches:
-            - main
+on: [push]
+#    push:
+#        branches:
+#            - main
 
 jobs:
     test:
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         steps:
         - name: Checkout code
           uses: actions/checkout@v4
@@ -17,12 +17,12 @@ jobs:
           with:
               node-version: '18'
         - name: Install dependencies
-          run: npm install
+          run: cd app && npm install
         - name: Run tests
-          run: npm test
+          run: cd app && npm test
     build:
         needs: [test]
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         steps:
         - name: Checkout code
           uses: actions/checkout@v4
@@ -37,7 +37,7 @@ jobs:
           run: docker push saqibatdocker/my-node-app:${{ github.sha }}
     deploy:
         needs: [build]
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         steps:
         - name: Checkout code
           uses: actions/checkout@v4
@@ -49,8 +49,8 @@ jobs:
             export KUBECONFIG=kubeconfig.json
         - name: Deploy to Kubernetes
           run: |
-            kubectl apply -f K8s/deployment.yml
-            kubectl apply -f K8s/service.yml
+            kubectl apply -f K8s/deployment.yml --validate=false
+            kubectl apply -f K8s/service.yml --validate=false
 
 
 
