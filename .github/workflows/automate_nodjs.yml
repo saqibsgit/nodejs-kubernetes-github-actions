@@ -1,10 +1,10 @@
 # A CI/CD pipeline that automates the deployment of docker image of node.js file to kubernetes cluster
 name: node.js CI/CD Pipeline
 
-on:
-    push:
-        branches:
-            - main
+on: [push]
+#    push:
+#        branches:
+#            - main
 
 jobs:
     test:
