@@ -17,7 +17,8 @@ spec:
     spec:
       containers:
       - name: node-app
-        image: my-node-app
+        image: saqibatdocker/my-node-app:latest
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
         readinessProbe:
@@ -32,3 +33,4 @@ spec:
               port: 3000
           initialDelaySeconds: 15
           periodSeconds: 20
+
