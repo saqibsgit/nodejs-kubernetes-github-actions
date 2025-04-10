@@ -18,7 +18,7 @@ spec:
       containers:
       - name: node-app
         image: saqibatdocker/my-node-app:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
         readinessProbe:

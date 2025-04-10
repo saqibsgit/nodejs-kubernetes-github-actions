@@ -4,16 +4,16 @@
 FROM node:18
 
 #Create and set the working directory
-WORKDIR /usr/scr/app
+WORKDIR /usr/src/app
 
-# copy package.json and install dependencies
+# Copy only the app-specific files first (for better layer caching)
 COPY app/package.json ./
 RUN npm install
 
-# copy the rest of application code
-COPY . .
+# Now copy the rest of the app code
+COPY app ./
 
-# Expose port
+# Expose the port the app runs on
 EXPOSE 3000
 
 # run the application
