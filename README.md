@@ -85,6 +85,37 @@ To use GitHub Actions for CI/CD, add the following secrets to your GitHub reposi
 - **DOCKER_PASSWORD**: Your Docker Hub password.
 - **KUBECONFIG_JSON**: Your Kubernetes configuration file content for accessing the Minikube cluster.
 
+## 🖥️ Running GitHub Actions Locally (Self-Hosted Runner)
+
+This project uses a **self-hosted GitHub Actions runner** to enable local CI/CD testing, especially for scenarios involving **Minikube** or custom networking setups that GitHub-hosted runners can't access.
+
+### 🔍 Why a Self-Hosted Runner?
+
+GitHub provides two types of runners:
+
+| Type | Pros | Cons |
+|------|------|------|
+| **GitHub-hosted** | Fully managed, quick setup | Cannot access your local Minikube cluster |
+| **Self-hosted** (used here) | Full control, can access Minikube and local services | Requires local setup and maintenance |
+
+This repo uses a **self-hosted runner** so you can:
+- Test the full pipeline end-to-end on your **local Kubernetes (Minikube)** setup
+- Simulate secure CI/CD flow without pushing to a live environment
+- Debug pipeline behavior in a controlled, private network
+
+---
+
+### ⚙️ Setting Up a Local GitHub Actions Runner on macOS
+
+> 💡 This setup allows you to run GitHub Actions workflows directly from your machine.
+
+1. **Navigate to your GitHub repository**:
+   - Go to `Settings` → `Actions` → `Runners`
+   - Click **“New self-hosted runner”**
+   - Choose **OS** and follow the instructions provided
+
+2. Run the setup commands locally
+3. Github Actions pipeline will trigger automatically based on trigger(in this case, trigger is any commit to the repo).
 ## Contributing
 
 Feel free to open issues or create pull requests to enhance this project. Contributions are welcome!
